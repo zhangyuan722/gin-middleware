@@ -1,4 +1,4 @@
-module v0.0.1
+module github.com/zhangyuan722/gin-middleware
 
 go 1.21.0
 
