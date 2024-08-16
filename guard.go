@@ -37,7 +37,7 @@ func AuthGuard(p *AuthGuardPayload) gin.HandlerFunc {
 
 		// region check symbol
 		if strings.Contains(path, asterisk) {
-			p.FailBack(c, 1002, fmt.Sprintf("非法字符：%s", asterisk), nil)
+			p.FailBack(c, 1002, fmt.Sprintf("invalid char '%s'", asterisk), nil)
 			c.Abort()
 			return
 		}
