@@ -3,11 +3,17 @@ package m
 import (
 	"github.com/golang-jwt/jwt/v5"
 	"strings"
+	"time"
 )
 
 const tokenPrefix = "Bearer "
 
 type Claims = jwt.RegisteredClaims
+type NumericDate = jwt.NumericDate
+
+func NewNumericDate(t time.Time) *NumericDate {
+	return jwt.NewNumericDate(t)
+}
 
 func GenerateToken(claims Claims, secretKey string) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
