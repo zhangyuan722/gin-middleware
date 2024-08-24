@@ -1,4 +1,4 @@
-package m
+package gm
 
 import (
 	"fmt"
@@ -80,6 +80,8 @@ func AuthGuard(p *AuthGuardPayload) gin.HandlerFunc {
 		}
 
 		p.CallBack(c, claims, accessToken)
+
+		c.Set(CtxClaims, claims)
 
 		c.Next()
 	}

@@ -1,4 +1,4 @@
-package m
+package gm
 
 import (
 	"fmt"

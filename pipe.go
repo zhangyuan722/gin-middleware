@@ -1,14 +1,9 @@
-package m
+package gm
 
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"reflect"
-)
-
-const (
-	CtxQuery = "query"
-	CtxBody  = "body"
 )
 
 func QueryPipe[T any]() gin.HandlerFunc {

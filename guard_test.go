@@ -1,4 +1,4 @@
-package m
+package gm
 
 import (
 	"github.com/gin-gonic/gin"
