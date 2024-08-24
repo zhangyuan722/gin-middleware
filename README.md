@@ -10,7 +10,7 @@ Gin-Middleware is a middleware extension of the [Gin](https://github.com/gin-gon
   - [QueryPipe](./pipe.go#L14)
   - [BodyPipe](./pipe.go#L31)
 - alarm
-  - [FeishuWebHookAlarm](./alarm.go#L16)
+  - [LogAlarm](./alarm.go#L25)
 
 ## Getting started
 

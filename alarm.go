@@ -13,7 +13,16 @@ import (
 	"time"
 )
 
-func FeishuBotWebHookAlarm(webHookURL string) gin.HandlerFunc {
+type LogAlarmPayload struct {
+	Trigger AlarmTrigger
+	Params  []string
+}
+
+type AlarmTrigger struct {
+	WebHook []string
+}
+
+func LogAlarm(p *LogAlarmPayload) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		beginAt := time.Now()
 		w := &responseWriter{body: bytes.NewBufferString(""), ResponseWriter: c.Writer}
@@ -33,7 +42,7 @@ func FeishuBotWebHookAlarm(webHookURL string) gin.HandlerFunc {
 		paramMap["timestamp"] = nowAt.String()
 
 		if u, exists := c.Get(CtxClaims); exists {
-			paramMap["user"] = u.(Claims).ID
+			paramMap["user"] = u.(*Claims).ID
 		}
 
 		paramMap["status"] = strconv.FormatInt(int64(status), 10)
@@ -46,18 +55,26 @@ func FeishuBotWebHookAlarm(webHookURL string) gin.HandlerFunc {
 
 		paramMap["timing"] = strconv.FormatInt(nowAt.Sub(beginAt).Milliseconds(), 10)
 
-		query := url.Values{}
-		for k, v := range paramMap {
-			query.Add(k, v)
+		paramMap["curl"] = getCURL(c)
+
+		if len(p.Trigger.WebHook) > 0 {
+			triggerWebHook(p.Trigger.WebHook, paramMap)
 		}
-		query.Add("curl", getCURL(c))
-		queryString := query.Encode()
-
-		fmt.Println("Encoded query string:", queryString)
-
-		resp, _ := http.Get(fmt.Sprintf("%s?%s", webHookURL, queryString))
-		defer resp.Body.Close()
 	}
+}
+
+func triggerWebHook(urls []string, paramMap map[string]string) {
+	params := url.Values{}
+	for k, v := range paramMap {
+		params.Add(k, v)
+	}
+	queryString := params.Encode()
+
+	var resp *http.Response
+	for _, v := range urls {
+		resp, _ = http.Get(fmt.Sprintf("%s?%s", v, queryString))
+	}
+	defer resp.Body.Close()
 }
 
 type responseWriter struct {
