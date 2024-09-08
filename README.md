@@ -7,8 +7,9 @@ Gin-Middleware is a middleware extension of the [Gin](https://github.com/gin-gon
 - guard
   - [AuthGuard](./guard.go#L23)
 - pipe
-  - [QueryPipe](./pipe.go#L14)
-  - [BodyPipe](./pipe.go#L31)
+  - [QueryPipe](./pipe.go#L11)
+  - [BodyPipe](./pipe.go#L28)
+  - [UserAgentPipe](./pipe.go#L45)
 - alarm
   - [LogAlarm](./alarm.go#L25)
 

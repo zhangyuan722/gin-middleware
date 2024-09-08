@@ -23,7 +23,11 @@ func TestAuthGuard(t *testing.T) {
 	})
 
 	r.GET("/api/protected", authGuard, func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{"message": "This is a protected endpoint"})
+		c.JSON(http.StatusOK, gin.H{"msg": "This is a protected endpoint"})
+	})
+
+	r.GET("/api/public", authGuard, func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{"msg": "This is a public endpoint"})
 	})
 
 	whiteListPath := "/api/public"
